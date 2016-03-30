@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Frame;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
@@ -34,7 +36,26 @@ public class FirstView {
 				frame.setSize(800,600);
 				frame.setVisible(true);
 				
-				// Create an empty layer, give it a name
+				worldWindCanvas.getInputHandler().addMouseListener(new MouseAdapter() {
+				    @Override
+				    public void mouseClicked(MouseEvent pE) {
+
+				        Position aCurrentPosition = worldWindCanvas.getCurrentPosition();
+
+				        //Or whatever work:      
+				        if(aCurrentPosition != null) {
+
+				            System.out.println("Current Pos= " + aCurrentPosition);
+
+				        } else {
+
+				            System.out.println("Current Pos is null!");
+
+				        }
+				    }
+				});
+				
+			/*	// Create an empty layer, give it a name
 		        layer = new RenderableLayer();
 		        layer.setName("Interactive ellipses");
 		        
@@ -59,7 +80,7 @@ public class FirstView {
 					
 					
 					
-				}
+				}*/
 				
 				
 				
@@ -86,11 +107,113 @@ public class FirstView {
 				layer.addRenderable(polyline);
 				
 				//add layer to WorldWind
-				worldWindCanvas.getModel().getLayers().add(layer);*/
+				worldWindCanvas.getModel().getLayers().add(layer);
 				
 				
 	
 	
-	});
+	});Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent pE) {
+
+        Position aCurrentPosition = aCanvas.getCurrentPosition();
+
+        //Or whatever work:      
+        if(aCurrentPosition != null) {
+
+            System.out.println("Current Pos= " + aCurrentPosition);
+
+        } else {
+
+            System.out.println("Current Pos is null!");
+
+        }
+    }
+});Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent pE) {
+
+        Position aCurrentPosition = aCanvas.getCurrentPosition();
+
+        //Or whatever work:      
+        if(aCurrentPosition != null) {
+
+            System.out.println("Current Pos= " + aCurrentPosition);
+
+        } else {
+
+            System.out.println("Current Pos is null!");
+
+        }
+    }
+});Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent pE) {
+
+        Position aCurrentPosition = aCanvas.getCurrentPosition();
+
+        //Or whatever work:      
+        if(aCurrentPosition != null) {
+
+            System.out.println("Current Pos= " + aCurrentPosition);
+
+        } else {
+
+            System.out.println("Current Pos is null!");
+
+        }
+    }
+});Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent pE) {
+
+        Position aCurrentPosition = aCanvas.getCurrentPosition();
+
+        //Or whatever work:      
+        if(aCurrentPosition != null) {
+
+            System.out.println("Current Pos= " + aCurrentPosition);
+
+        } else {
+
+            System.out.println("Current Pos is null!");
+
+        }
+    }
+});Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent pE) {
+
+        Position aCurrentPosition = aCanvas.getCurrentPosition();
+
+        //Or whatever work:      
+        if(aCurrentPosition != null) {
+
+            System.out.println("Current Pos= " + aCurrentPosition);
+
+        } else {
+
+            System.out.println("Current Pos is null!");
+
+        }
+    }
+});Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent pE) {
+
+        Position aCurrentPosition = aCanvas.getCurrentPosition();
+
+        //Or whatever work:      
+        if(aCurrentPosition != null) {
+
+            System.out.println("Current Pos= " + aCurrentPosition);
+
+        } else {
+
+            System.out.println("Current Pos is null!");
+
+        }
+    }
+});*/
 	}
 }

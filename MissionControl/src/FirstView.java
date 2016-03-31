@@ -18,16 +18,22 @@ import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.render.Material;
 import gov.nasa.worldwind.render.Polyline;
 import gov.nasa.worldwind.render.SurfaceEllipse;
+import gov.nasa.worldwind.render.SurfacePolyline;
+import gov.nasa.worldwind.util.BasicDragger;
 
 public class FirstView {
 	public static RenderableLayer layer = null;
+	
+	
+	
 	FirstView(){
 		
 		
 		System.out.println("Started");
 		//create a WorldWind main object
-				WorldWindowGLCanvas worldWindCanvas = new WorldWindowGLCanvas();
-				worldWindCanvas.setModel(new BasicModel());
+		WorldWindowGLCanvas worldWindCanvas = new WorldWindowGLCanvas();
+		worldWindCanvas.setModel(new BasicModel());
+		worldWindCanvas.addSelectListener(new BasicDragger(worldWindCanvas,true));
 				
 				//build Java swing interface
 				JFrame frame = new JFrame("World Wind");
@@ -36,51 +42,70 @@ public class FirstView {
 				frame.setSize(800,600);
 				frame.setVisible(true);
 				
+				
+				LinkedList<Position> list = new LinkedList<>();
 				worldWindCanvas.getInputHandler().addMouseListener(new MouseAdapter() {
 				    @Override
 				    public void mouseClicked(MouseEvent pE) {
-
-				        Position aCurrentPosition = worldWindCanvas.getCurrentPosition();
+				    
+				    	final Position aCurrentPosition = worldWindCanvas.getCurrentPosition();
+				    	 	
+				    	list.add(aCurrentPosition);
+				    	
+				    	
 
 				        //Or whatever work:      
 				        if(aCurrentPosition != null) {
 
 				            System.out.println("Current Pos= " + aCurrentPosition);
+				            
+				            SurfaceEllipse e2 = new SurfaceEllipse(
+				            		   LatLon.fromDegrees(aCurrentPosition.getLatitude().degrees,aCurrentPosition.getLongitude().degrees), // reference position - order is LATITUDE, LONGITUDE
+					                100000.0d, // major radius
+					                50000.0d, // minor radius
+					                Angle.fromRadians(aCurrentPosition.getElevation())// rotation
+					                );
+				            
+				           
+				            
+				            layer = new RenderableLayer();
+					        layer.setName("Interactive ellipses");
+					        
+					        
+					        
+					        worldWindCanvas.getModel().getLayers().add(layer);
+					        layer.addRenderable(e2);
+					      
+							
+							
+						
 
 				        } else {
 
 				            System.out.println("Current Pos is null!");
 
 				        }
-				    }
+				        if (list.size()>1){
+				        	Polyline polyline = new Polyline(list);
+				        	polyline.setColor(Color.RED);
+				        	polyline.setLineWidth(2);
+				        	layer.addRenderable(polyline);
+				        	
+				        	
+				    	}
+				        
+				        }
+				    
+				    
 				});
+			
+			        
+			        
+			       
 				
-			/*	// Create an empty layer, give it a name
-		        layer = new RenderableLayer();
-		        layer.setName("Interactive ellipses");
+				
 		        
-		     // Use the built-in renderer code to draw an ellipse (near Perth, Australia).
-		        SurfaceEllipse e1 = new SurfaceEllipse(
-		                LatLon.fromDegrees(-31.0d, 115.0d), // reference position - order is LATITUDE, LONGITUDE
-		                100000.0d, // major radius
-		                50000.0d, // minor radius
-		                Angle.fromDegrees(45.0d) // rotation
-		                );
-		        
-		        e1.getAttributes().setInteriorMaterial(Material.ORANGE);
-		        layer.addRenderable(e1);
-		        
-		        worldWindCanvas.getModel().getLayers().add(layer);
-				worldWindCanvas.addSelectListener(new SelectListener(){
-					
-					// triggered when any selection event occurs
-		            public void selected(SelectEvent event) {
-	System.out.println("*** SELECT EVENT FIRED **** (" + event.getEventAction() + ")");
-					
-					
-					
-					
-				}*/
+		    
 				
 				
 				
@@ -88,31 +113,24 @@ public class FirstView {
 				
 				
 				
-			/*	//create some "Position" to build a polyline
-				LinkedList<Position> list = new LinkedList<Position>();
-				for(int i = 0 ; i < 90 ; i++) {
+				//create some "Position" to build a polyline
+				;
+				
 					//in this case, points are in geographic coordinates.
 					//If you are using cartesian coordinates, you have to convert them to geographic coordinates.
 					//Maybe, there are some functions doing that in WWJ API...
-					list.add(Position.fromDegrees(i,0.0,i*20000));
-				}
+					
 				
-				//create "Polyline" with list of "Position" and set color / thickness
-				Polyline polyline = new Polyline(list);
-				polyline.setColor(Color.RED);
-				polyline.setLineWidth(3.0);
-				
-				//create a layer and add Polyline
-				RenderableLayer layer = new RenderableLayer();
-				layer.addRenderable(polyline);
-				
-				//add layer to WorldWind
-				worldWindCanvas.getModel().getLayers().add(layer);
 				
 				
 	
 	
-	});Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
+	/*
+	
+	
+	
+	
+	Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
     @Override
     public void mouseClicked(MouseEvent pE) {
 

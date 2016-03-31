@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import gov.nasa.worldwind.BasicModel;
+import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.awt.WorldWindowGLCanvas;
 import gov.nasa.worldwind.event.SelectEvent;
 import gov.nasa.worldwind.event.SelectListener;
@@ -23,17 +24,24 @@ import gov.nasa.worldwind.util.BasicDragger;
 
 public class FirstView {
 	public static RenderableLayer layer = null;
+	SelectEvent event;
 	
 	
 	
 	FirstView(){
 		
-		
+	
 		System.out.println("Started");
 		//create a WorldWind main object
 		WorldWindowGLCanvas worldWindCanvas = new WorldWindowGLCanvas();
+		worldWindCanvas.redraw();
 		worldWindCanvas.setModel(new BasicModel());
-		worldWindCanvas.addSelectListener(new BasicDragger(worldWindCanvas,true));
+		BasicDragger event = new BasicDragger(worldWindCanvas);
+		worldWindCanvas.addSelectListener(event);
+		
+		
+		
+		
 				
 				//build Java swing interface
 				JFrame frame = new JFrame("World Wind");
@@ -45,17 +53,30 @@ public class FirstView {
 				
 				LinkedList<Position> list = new LinkedList<>();
 				worldWindCanvas.getInputHandler().addMouseListener(new MouseAdapter() {
+				  
+				  
 				    @Override
 				    public void mouseClicked(MouseEvent pE) {
+				    	
 				    
+				    	
+				    	/*if(event!=null){
+				    		if( worldWindCanvas.getGLEventListenerInitState(SelectEven).equals(SelectEvent.DRAG)){
+				    			
+				    			
+				    			System.out.println("DRAGGING FINALLY");
+				    		};
+				    		
+				    		}*/
+				    	
+						     
 				    	final Position aCurrentPosition = worldWindCanvas.getCurrentPosition();
-				    	 	
-				    	list.add(aCurrentPosition);
-				    	
-				    	
 
-				        //Or whatever work:      
+				        //Check for making sure coordinates are there      
 				        if(aCurrentPosition != null) {
+				        	
+					    	
+					    	list.add(aCurrentPosition);
 
 				            System.out.println("Current Pos= " + aCurrentPosition);
 				            
@@ -63,19 +84,38 @@ public class FirstView {
 				            		   LatLon.fromDegrees(aCurrentPosition.getLatitude().degrees,aCurrentPosition.getLongitude().degrees), // reference position - order is LATITUDE, LONGITUDE
 					                100000.0d, // major radius
 					                50000.0d, // minor radius
-					                Angle.fromRadians(aCurrentPosition.getElevation())// rotation
+					                Angle.fromRadians(aCurrentPosition.getElevation())
+					                // rotation
 					                );
 				            
-				           
+				          
 				            
 				            layer = new RenderableLayer();
 					        layer.setName("Interactive ellipses");
+					       
 					        
 					        
 					        
 					        worldWindCanvas.getModel().getLayers().add(layer);
 					        layer.addRenderable(e2);
-					      
+					        if (list.size()>1){
+					        	Polyline polyline = new Polyline(list);
+					        	
+					        	
+					        	polyline.setColor(Color.RED);
+					        	polyline.setLineWidth(2);
+					        	layer.addRenderable(polyline);
+					        	
+					        	
+					        	
+					        	
+					        	
+					        	
+					    	}
+					        
+ 
+					        
+					        
 							
 							
 						
@@ -85,20 +125,14 @@ public class FirstView {
 				            System.out.println("Current Pos is null!");
 
 				        }
-				        if (list.size()>1){
-				        	Polyline polyline = new Polyline(list);
-				        	polyline.setColor(Color.RED);
-				        	polyline.setLineWidth(2);
-				        	layer.addRenderable(polyline);
-				        	
-				        	
-				    	}
+				    
 				        
 				        }
 				    
 				    
 				});
 			
+				
 			        
 			        
 			       
@@ -113,125 +147,18 @@ public class FirstView {
 				
 				
 				
-				//create some "Position" to build a polyline
-				;
 				
-					//in this case, points are in geographic coordinates.
-					//If you are using cartesian coordinates, you have to convert them to geographic coordinates.
-					//Maybe, there are some functions doing that in WWJ API...
 					
 				
 				
 				
 	
 	
-	/*
 	
-	
-	
-	
-	Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
-    @Override
-    public void mouseClicked(MouseEvent pE) {
 
-        Position aCurrentPosition = aCanvas.getCurrentPosition();
+      
+   
 
-        //Or whatever work:      
-        if(aCurrentPosition != null) {
-
-            System.out.println("Current Pos= " + aCurrentPosition);
-
-        } else {
-
-            System.out.println("Current Pos is null!");
-
-        }
-    }
-});Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
-    @Override
-    public void mouseClicked(MouseEvent pE) {
-
-        Position aCurrentPosition = aCanvas.getCurrentPosition();
-
-        //Or whatever work:      
-        if(aCurrentPosition != null) {
-
-            System.out.println("Current Pos= " + aCurrentPosition);
-
-        } else {
-
-            System.out.println("Current Pos is null!");
-
-        }
-    }
-});Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
-    @Override
-    public void mouseClicked(MouseEvent pE) {
-
-        Position aCurrentPosition = aCanvas.getCurrentPosition();
-
-        //Or whatever work:      
-        if(aCurrentPosition != null) {
-
-            System.out.println("Current Pos= " + aCurrentPosition);
-
-        } else {
-
-            System.out.println("Current Pos is null!");
-
-        }
-    }
-});Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
-    @Override
-    public void mouseClicked(MouseEvent pE) {
-
-        Position aCurrentPosition = aCanvas.getCurrentPosition();
-
-        //Or whatever work:      
-        if(aCurrentPosition != null) {
-
-            System.out.println("Current Pos= " + aCurrentPosition);
-
-        } else {
-
-            System.out.println("Current Pos is null!");
-
-        }
-    }
-});Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
-    @Override
-    public void mouseClicked(MouseEvent pE) {
-
-        Position aCurrentPosition = aCanvas.getCurrentPosition();
-
-        //Or whatever work:      
-        if(aCurrentPosition != null) {
-
-            System.out.println("Current Pos= " + aCurrentPosition);
-
-        } else {
-
-            System.out.println("Current Pos is null!");
-
-        }
-    }
-});Canvas.getInputHandler().addMouseListener(new MouseAdapter() {
-    @Override
-    public void mouseClicked(MouseEvent pE) {
-
-        Position aCurrentPosition = aCanvas.getCurrentPosition();
-
-        //Or whatever work:      
-        if(aCurrentPosition != null) {
-
-            System.out.println("Current Pos= " + aCurrentPosition);
-
-        } else {
-
-            System.out.println("Current Pos is null!");
-
-        }
-    }
-});*/
 	}
+	
 }

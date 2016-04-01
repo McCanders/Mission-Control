@@ -74,6 +74,8 @@ public class FirstView {
 				        	mousePositionOnMap.add(mouseCurrentPosition);
 
 				            System.out.println("Current Pos= " + mouseCurrentPosition);
+				            
+				            
 				           
 				             
 				        }//ends if loop if position is not null
@@ -85,7 +87,9 @@ public class FirstView {
 				        }//ends else loop it position is null 
 				    }//ends click event
 				    
+				    
 				});//ends mouse Listener 
+				drawView(mousePositionOnMap);
 				
 				//if(mousePositionOnMap.size()>0)drawView(mousePositionOnMap);
 				
@@ -99,19 +103,24 @@ public class FirstView {
 	
 	//function to draw layer or view from list
 	void drawView(List<Position> givenList){
+		
 		//loop for iterating through Position list
 		for(int i = 0; i< givenList.size();i++){
+			
 			//getting value to pass in  of PointPlacemark
 			Position positionFromGivenList = givenList.get(i);
+			System.out.println("IIIIIIIII  " + positionFromGivenList);
 			//constructor for creating placeMarks from mouse position
-			PointPlacemark poinPlacemarkOnMap = new  PointPlacemark (positionFromGivenList);
+			//PointPlacemark poinPlacemarkOnMap = new  PointPlacemark (positionFromGivenList);
+			//creating new layer common problem Nullpointer exception
+			layer = new RenderableLayer();
 			//adding to layer every marker
-			layer.addRenderable(poinPlacemarkOnMap);
-			worldWindCanvas.getModel().getLayers().add(layer);
+			layer.addRenderable();
+			
 			
 		}//ends for loop in drawView
 		
-		 
+		worldWindCanvas.getModel().getLayers().add(layer);
 	}//ends method drawView
    
 	

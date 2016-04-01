@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,6 +24,7 @@ import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.layers.MarkerLayer;
 import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.render.Material;
+import gov.nasa.worldwind.render.PointPlacemark;
 import gov.nasa.worldwind.render.Polyline;
 import gov.nasa.worldwind.render.SurfaceEllipse;
 import gov.nasa.worldwind.render.markers.BasicMarker;
@@ -80,10 +82,27 @@ public class FirstView {
 				
 				
 				
+				
+				
 
 			
 	}//ends first view Constructor
 	
+	//function to draw layer or view from list
+	void drawView(List<Position> list){
+		//loop for iterating through Position list
+		for(int i = 0; i<list.size();i++){
+			//getting value to pass in  of PointPlacemark
+			Position positionFromGivenList = list.get(i);
+			//constructor for creating placeMarks from mouse position
+			PointPlacemark poinPlacemarkOnMap = new  PointPlacemark (positionFromGivenList);
+			//adding to layer every marker
+			layer.addRenderable(poinPlacemarkOnMap);
+			
+		}//ends for loop in drawView
+		
+		worldWindCanvas.add
+	}//ends method drawView
    
 	
 }//ends first view class

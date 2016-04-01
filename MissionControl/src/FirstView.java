@@ -64,6 +64,11 @@ public class FirstView {
 
 				        //Or whatever work:      
 				        if(mouseCurrentPosition != null) {
+				        	
+				        	
+							
+							
+							
 				        	//after null check to make sure coordinates are not null avoiding null point exceptions
 				        	mousePositionOnMap.add(mouseCurrentPosition);
 

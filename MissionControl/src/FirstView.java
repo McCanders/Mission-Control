@@ -65,7 +65,6 @@ public class FirstView {
 				        //Or whatever work:      
 				        if(mouseCurrentPosition != null) {
 				        	
-				        	
 							
 							
 							

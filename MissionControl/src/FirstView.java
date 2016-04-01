@@ -56,11 +56,13 @@ public class FirstView {
 				
 				//List to hold positions and use them later for creating picture 
 				LinkedList<Position> mousePositionOnMap = new LinkedList<>();
+				
+				//adding mouse listener to window
 				worldWindCanvas.getInputHandler().addMouseListener(new MouseAdapter() {
 				    @Override
 				    public void mouseClicked(MouseEvent pE) {
                         //getting position from current mouse click
-				        Position mouseCurrentPosition = worldWindCanvas.getCurrentPosition();
+				    final Position mouseCurrentPosition = worldWindCanvas.getCurrentPosition();
 
 				        //Or whatever work:      
 				        if(mouseCurrentPosition != null) {

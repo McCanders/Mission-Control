@@ -51,16 +51,21 @@ public class FirstView {
 				frame.setSize(800,600);
 				frame.setVisible(true);
 				
+				
+				//List to hold positions and use them later for creating picture 
+				LinkedList<Position> mousePositionOnMap = new LinkedList<>();
 				worldWindCanvas.getInputHandler().addMouseListener(new MouseAdapter() {
 				    @Override
 				    public void mouseClicked(MouseEvent pE) {
-
-				        Position aCurrentPosition = worldWindCanvas.getCurrentPosition();
+                        //getting position from current mouse click
+				        Position mouseCurrentPosition = worldWindCanvas.getCurrentPosition();
 
 				        //Or whatever work:      
-				        if(aCurrentPosition != null) {
+				        if(mouseCurrentPosition != null) {
+				        	//after null check to make sure coordinates are not null avoiding null point exceptions
+				        	mousePositionOnMap.add(mouseCurrentPosition);
 
-				            System.out.println("Current Pos= " + aCurrentPosition);
+				            System.out.println("Current Pos= " + mouseCurrentPosition);
 				            
 
 				        }//ends if loop if position is not null

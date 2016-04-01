@@ -69,8 +69,9 @@ public class FirstView {
 
 				            System.out.println("Current Pos= " + mouseCurrentPosition);
 				           
-
+				             
 				        }//ends if loop if position is not null
+				        
 				        else {
 
 				            System.out.println("Current Pos is null!");
@@ -93,9 +94,9 @@ public class FirstView {
 	//function to draw layer or view from list
 	void drawView(List<Position> givenList){
 		//loop for iterating through Position list
-		for(int i = 0; i<givenList.size();i++){
+		for(int i = 0; i< givenList.size();i++){
 			//getting value to pass in  of PointPlacemark
-			Position positionFromGivenList= givenList.get(i);
+			Position positionFromGivenList = givenList.get(i);
 			//constructor for creating placeMarks from mouse position
 			PointPlacemark poinPlacemarkOnMap = new  PointPlacemark (positionFromGivenList);
 			//adding to layer every marker

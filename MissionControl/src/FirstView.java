@@ -32,6 +32,7 @@ import gov.nasa.worldwind.render.markers.BasicMarkerAttributes;
 import gov.nasa.worldwind.render.markers.BasicMarkerShape;
 import gov.nasa.worldwind.render.markers.Marker;
 import gov.nasa.worldwind.render.markers.MarkerAttributes;
+import gov.nasa.worldwind.util.BasicDragger;
 import gov.nasa.worldwindx.examples.ApplicationTemplate;
 
 public class FirstView {
@@ -45,7 +46,10 @@ public class FirstView {
 		System.out.println("Started");
 		//create a WorldWind main object
 				WorldWindow worldWindCanvas = new WorldWindowGLCanvas();
+				//setting model for now Basic model
 				worldWindCanvas.setModel(new BasicModel());
+				//adding for dragging
+				worldWindCanvas.getInputHandler().addSelectListener(new BasicDragger(worldWindCanvas));
 				
 				//build Java swing interface
 				JFrame frame = new JFrame("World Wind");
@@ -71,7 +75,7 @@ public class FirstView {
 				        	mousePositionOnMap.add(mouseCurrentPosition);
 
 				        	//constructor for creating placeMarks from mouse position
-				        	PointPlacemark pointPlacemarkOnMapList= new  PointPlacemark (mouseCurrentPosition);
+				        	PointPlacemark pointPlacemarkOnMapList = new  PointPlacemark (mouseCurrentPosition);
 			    				layer = new RenderableLayer();
 			    			
 			    			layer.addRenderable(pointPlacemarkOnMapList);
@@ -106,7 +110,29 @@ public class FirstView {
 				    
 				});//ends mouse Listener 
 				
+				//adding select listener to window 
+				worldWindCanvas.getInputHandler().addSelectListener(new SelectListener(){
+						   //running method if for selection 
+			    			public void selected(SelectEvent event){
+			    				//checking what is selected
+			    				if(event.getEventAction().equals(SelectEvent.DRAG_END) && event.hasObjects() && event.getTopObject() instanceof Polyline){
+			    					//logic what to do after selection is finished
+			    					System.out.println("Checcking markers poly drag");
+			    					//TODO
+			    					
+			    				}//ends logic for first type (if) statement
+			    				//adding one more selection criteria
+			    				else if (event.getEventAction().equals(SelectEvent.DRAG_END) && event.hasObjects() && event.getTopObject() instanceof  PointPlacemark){
+			    					System.out.println("Checcking markers  drag");
+			    					//TODO
+			    					
+			    				}//end second if (else if) logic
+			    			
+			    			}//ends selected method
+						
 				
+						
+			    			});//ends select listeners		
 				
 				
 				

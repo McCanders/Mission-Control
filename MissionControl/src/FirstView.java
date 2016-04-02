@@ -75,15 +75,16 @@ public class FirstView {
 			    			
 			    			layer.addRenderable(pointPlacemarkOnMapList);
 			    			
+			    			//creating poly line checking if more than one entry in list for line
+	    					 if (mousePositionOnMap.size()>1){
+		 				        	Polyline polyline = new Polyline(mousePositionOnMap);
+		 				        	polyline.setColor(Color.RED);
+		 				        	polyline.setLineWidth(2);
+		 				        	layer.addRenderable(polyline);}//end of polyline creating
 							
 				        	
-							Polyline polyline = new Polyline(mousePositionOnMap);
-							polyline.setColor(Color.BLACK);
-							polyline.setFilled(true);
-							polyline.setLineWidth(2);
-							layer.addRenderable(polyline);
 							
-							
+							//adding to window
 							worldWindCanvas.getModel().getLayers().add(layer);
 				        	
 				            System.out.println("Current Pos= " + mouseCurrentPosition);
@@ -104,7 +105,7 @@ public class FirstView {
 				    
 				});//ends mouse Listener 
 				
-				drawView(mousePositionOnMap);
+				
 				
 				//if(mousePositionOnMap.size()>0)drawView(mousePositionOnMap);
 				
@@ -116,45 +117,7 @@ public class FirstView {
 			
 	}//ends first view Constructor
 	
-	//function to draw layer or view from list
-	void drawView(List<Position> givenList){
-		if(givenList.size()>0){
-		
-		//loop for iterating through Position list
-		for(int i = 0; i< givenList.size(); i++){
-			
-			
-			//getting value to pass in  of PointPlacemark
-			
-			
-	                // Create an AppFrame and immediately make it visible. As per Swing convention, this
-	                // is done within an invokeLater call so that it executes on an AWT thread.
-	            
-	            	Position mouseCurrentPositionFromList = givenList.get(i);
-	            	
-	    			
-	            	
-	         
-	    
-			
-		}
-			
-			
-			//constructor for creating placeMarks from mouse position
-			
-			//Shoving number of placemarker in list and how it is added to map
-			//pointPlacemarkOnMap.setLabelText("Point " + givenList.get(i));
-			
-			//System.out.println("From list "+mouseCurrentPositionFromList );
-			
-			//adding to layer every marker
-			
-			
-			
-		}//ends for loop in drawView
-		
-		
-	}//ends method drawView
+	
    
 	
 }//ends first view class

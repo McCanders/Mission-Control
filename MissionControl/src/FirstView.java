@@ -1,39 +1,21 @@
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import gov.nasa.worldwind.BasicModel;
-import gov.nasa.worldwind.Model;
-import gov.nasa.worldwind.WorldWind;
 import gov.nasa.worldwind.WorldWindow;
-import gov.nasa.worldwind.avlist.AVKey;
 import gov.nasa.worldwind.awt.WorldWindowGLCanvas;
 import gov.nasa.worldwind.event.SelectEvent;
 import gov.nasa.worldwind.event.SelectListener;
-import gov.nasa.worldwind.geom.Angle;
-import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.geom.Position;
-import gov.nasa.worldwind.layers.MarkerLayer;
 import gov.nasa.worldwind.layers.RenderableLayer;
-import gov.nasa.worldwind.render.Material;
 import gov.nasa.worldwind.render.PointPlacemark;
 import gov.nasa.worldwind.render.Polyline;
-import gov.nasa.worldwind.render.SurfaceEllipse;
-import gov.nasa.worldwind.render.markers.BasicMarker;
-import gov.nasa.worldwind.render.markers.BasicMarkerAttributes;
-import gov.nasa.worldwind.render.markers.BasicMarkerShape;
-import gov.nasa.worldwind.render.markers.Marker;
-import gov.nasa.worldwind.render.markers.MarkerAttributes;
 import gov.nasa.worldwind.util.BasicDragger;
-import gov.nasa.worldwindx.examples.ApplicationTemplate;
 
 public class FirstView {
 	
@@ -61,6 +43,8 @@ public class FirstView {
 				
 				//List to hold positions and use them later for creating picture 
 				LinkedList<Position> mousePositionOnMap = new LinkedList<>();
+				//for now layer shared with others so screen has only one layer on top 
+				layer = new RenderableLayer();
 				
 				//adding mouse listener to window
 				worldWindCanvas.getInputHandler().addMouseListener(new MouseAdapter() {
@@ -76,16 +60,12 @@ public class FirstView {
 
 				        	//constructor for creating placeMarks from mouse position
 				        	PointPlacemark pointPlacemarkOnMapList = new  PointPlacemark (mouseCurrentPosition);
-			    				layer = new RenderableLayer();
+			    				
 			    			
 			    			layer.addRenderable(pointPlacemarkOnMapList);
 			    			
 			    			//creating poly line checking if more than one entry in list for line
-	    					 if (mousePositionOnMap.size()>1){
-		 				        	Polyline polyline = new Polyline(mousePositionOnMap);
-		 				        	polyline.setColor(Color.RED);
-		 				        	polyline.setLineWidth(2);
-		 				        	layer.addRenderable(polyline);}//end of polyline creating
+	    					
 							
 				        	
 							
@@ -118,12 +98,21 @@ public class FirstView {
 			    				if(event.getEventAction().equals(SelectEvent.DRAG_END) && event.hasObjects() && event.getTopObject() instanceof Polyline){
 			    					//logic what to do after selection is finished
 			    					System.out.println("Checcking markers poly drag");
-			    					//TODO
+			    					
+			    					 
+			    					
 			    					
 			    				}//ends logic for first type (if) statement
 			    				//adding one more selection criteria
 			    				else if (event.getEventAction().equals(SelectEvent.DRAG_END) && event.hasObjects() && event.getTopObject() instanceof  PointPlacemark){
 			    					System.out.println("Checcking markers  drag");
+			    					
+			    					layer.dispose();
+			    					 if (mousePositionOnMap.size()>1){
+				 				        	Polyline polyline = new Polyline(mousePositionOnMap);
+				 				        	polyline.setColor(Color.RED);
+				 				        	polyline.setLineWidth(2);
+				 				        	layer.addRenderable(polyline);}//end of polyline creating
 			    					//TODO
 			    					
 			    				}//end second if (else if) logic

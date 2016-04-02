@@ -37,7 +37,7 @@ import gov.nasa.worldwindx.examples.ApplicationTemplate;
 public class FirstView {
 	
 	protected WorldWindow worldWindCanvas;
-	public static RenderableLayer layer = null;
+	
 	FirstView(){
 		
 		
@@ -67,7 +67,11 @@ public class FirstView {
 				        //Or whatever work:      
 				        if(mouseCurrentPosition != null) {
 				        	
+				        	//constructor for creating placeMarks from mouse position
 							
+							
+				        	
+							drawView(mousePositionOnMap);
 							
 							
 				        	//after null check to make sure coordinates are not null avoiding null point exceptions
@@ -85,10 +89,12 @@ public class FirstView {
 				            System.out.println("Current Pos is null!");
 
 				        }//ends else loop it position is null 
+				       
 				    }//ends click event
 				    
 				    
 				});//ends mouse Listener 
+				
 				drawView(mousePositionOnMap);
 				
 				//if(mousePositionOnMap.size()>0)drawView(mousePositionOnMap);
@@ -103,24 +109,48 @@ public class FirstView {
 	
 	//function to draw layer or view from list
 	void drawView(List<Position> givenList){
+		if(givenList.size()>0){
 		
 		//loop for iterating through Position list
-		for(int i = 0; i< givenList.size();i++){
+		for(int i = 0; i< givenList.size(); i++){
+			final RenderableLayer	layer = new RenderableLayer();
 			
 			//getting value to pass in  of PointPlacemark
-			Position positionFromGivenList = givenList.get(i);
-			System.out.println("IIIIIIIII  " + positionFromGivenList);
+			
+			java.awt.EventQueue.invokeLater(new Runnable()
+	        {
+	            public void run()
+	            {
+	                // Create an AppFrame and immediately make it visible. As per Swing convention, this
+	                // is done within an invokeLater call so that it executes on an AWT thread.
+	            	for(int i = 0; i<givenList.size(); i++ ){
+	            	Position mouseCurrentPositionFromList = givenList.get(i);
+	    			PointPlacemark pointPlacemarkOnMapList= new  PointPlacemark (mouseCurrentPositionFromList);
+	    			layer.addRenderable(pointPlacemarkOnMapList);
+	    			worldWindCanvas.
+	    			
+	            	}
+	            }
+	        });
+	    
+			
+		}
+			
+			
 			//constructor for creating placeMarks from mouse position
-			//PointPlacemark poinPlacemarkOnMap = new  PointPlacemark (positionFromGivenList);
-			//creating new layer common problem Nullpointer exception
-			layer = new RenderableLayer();
+			
+			//Shoving number of placemarker in list and how it is added to map
+			//pointPlacemarkOnMap.setLabelText("Point " + givenList.get(i));
+			
+			//System.out.println("From list "+mouseCurrentPositionFromList );
+			
 			//adding to layer every marker
-			layer.addRenderable();
+			
 			
 			
 		}//ends for loop in drawView
 		
-		worldWindCanvas.getModel().getLayers().add(layer);
+		
 	}//ends method drawView
    
 	

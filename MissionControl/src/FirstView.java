@@ -37,6 +37,7 @@ import gov.nasa.worldwindx.examples.ApplicationTemplate;
 public class FirstView {
 	
 	protected WorldWindow worldWindCanvas;
+	static RenderableLayer layer = null;
 	
 	FirstView(){
 		
@@ -71,7 +72,7 @@ public class FirstView {
 
 				        	//constructor for creating placeMarks from mouse position
 				        	PointPlacemark pointPlacemarkOnMapList= new  PointPlacemark (mouseCurrentPosition);
-			    			final RenderableLayer	layer = new RenderableLayer();
+			    				layer = new RenderableLayer();
 			    			
 			    			layer.addRenderable(pointPlacemarkOnMapList);
 			    			
@@ -104,6 +105,9 @@ public class FirstView {
 				    
 				    
 				});//ends mouse Listener 
+				
+				
+				
 				
 				
 				

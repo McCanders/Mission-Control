@@ -66,17 +66,26 @@ public class FirstView {
 
 				        //Or whatever work:      
 				        if(mouseCurrentPosition != null) {
-				        	
-				        	//constructor for creating placeMarks from mouse position
-							
-							
-				        	
-							drawView(mousePositionOnMap);
-							
-							
 				        	//after null check to make sure coordinates are not null avoiding null point exceptions
 				        	mousePositionOnMap.add(mouseCurrentPosition);
 
+				        	//constructor for creating placeMarks from mouse position
+				        	PointPlacemark pointPlacemarkOnMapList= new  PointPlacemark (mouseCurrentPosition);
+			    			final RenderableLayer	layer = new RenderableLayer();
+			    			
+			    			layer.addRenderable(pointPlacemarkOnMapList);
+			    			
+							
+				        	
+							Polyline polyline = new Polyline(mousePositionOnMap);
+							polyline.setColor(Color.BLACK);
+							polyline.setFilled(true);
+							polyline.setLineWidth(2);
+							layer.addRenderable(polyline);
+							
+							
+							worldWindCanvas.getModel().getLayers().add(layer);
+				        	
 				            System.out.println("Current Pos= " + mouseCurrentPosition);
 				            
 				            
@@ -113,25 +122,19 @@ public class FirstView {
 		
 		//loop for iterating through Position list
 		for(int i = 0; i< givenList.size(); i++){
-			final RenderableLayer	layer = new RenderableLayer();
+			
 			
 			//getting value to pass in  of PointPlacemark
 			
-			java.awt.EventQueue.invokeLater(new Runnable()
-	        {
-	            public void run()
-	            {
+			
 	                // Create an AppFrame and immediately make it visible. As per Swing convention, this
 	                // is done within an invokeLater call so that it executes on an AWT thread.
-	            	for(int i = 0; i<givenList.size(); i++ ){
+	            
 	            	Position mouseCurrentPositionFromList = givenList.get(i);
-	    			PointPlacemark pointPlacemarkOnMapList= new  PointPlacemark (mouseCurrentPositionFromList);
-	    			layer.addRenderable(pointPlacemarkOnMapList);
-	    			worldWindCanvas.
+	            	
 	    			
-	            	}
-	            }
-	        });
+	            	
+	         
 	    
 			
 		}

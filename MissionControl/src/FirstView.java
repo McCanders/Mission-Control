@@ -88,14 +88,9 @@ public class FirstView {
 									   //running method if for selection 
 						    			public void selected(SelectEvent event){
 						    				//checking what is selected
-						    				if(event.getEventAction().equals(SelectEvent.LEFT_CLICK) && event.hasObjects() ){
+						    				if(event.getEventAction().equals(SelectEvent.DRAG) && event.hasObjects() && event.getTopObject()  instanceof PointPlacemark){
 						    					//logic what to do after selection is finished
-                                             final   Object pickedObject = event.getTopObject();
-                                             
-                                                if(pickedObject instanceof  PointPlacemark){
-                                                	
-                                                	System.out.println("");
-                                                }
+
 						    					layer.dispose();
 						    				
 						    					

@@ -20,6 +20,7 @@ import gov.nasa.worldwind.render.Polyline;
 import gov.nasa.worldwind.util.BasicDragger;
 import gov.nasa.worldwindx.examples.ApplicationTemplate;
 
+
 public class FirstView  {
    
 	protected WorldWindow worldWindCanvas;
@@ -28,18 +29,19 @@ public class FirstView  {
 	private List<Position> mousePositionOnMap;
 	private Position pickedPosition;
 	 /**
-     * Flag to indicate something was selected - this tracks both shapes(!) see
-     * notes above
+     * Flag to indicate something was selected 
      */
     public static boolean selected = false;
 	
 	
 
 	FirstView() {
+		
 
 		System.out.println("Started");
+		
 		// create a WorldWind main object
-		WorldWindow worldWindCanvas = new WorldWindowGLCanvas();
+		WorldWindowGLCanvas worldWindCanvas = new WorldWindowGLCanvas();
 		// setting model for now Basic model
 		worldWindCanvas.setModel(new BasicModel());
 		// adding for dragging
@@ -60,6 +62,8 @@ public class FirstView  {
 		layer = new RenderableLayer();
         layer.setPickEnabled(true);
 		// adding mouse listener to window
+        // create an instance of the dragger and give it a WWJ instance to use
+        
 		worldWindCanvas.getInputHandler().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent pE) {
@@ -88,7 +92,8 @@ public class FirstView  {
 								// logic what to do after selection is finished
 								 final Object topObject = event.getTopObject();
 							     String	 giveEvent = event.getEventAction();
-								 new Interaction(topObject,giveEvent,mousePositionOnMap,pickedPosition);
+							     boolean give = mousePositionOnMap.contains(pickedPosition);
+								 new Interaction(topObject,giveEvent,mousePositionOnMap,g);
 					               
                                 PointPlacemark hoveredPointPlacemark = (PointPlacemark) event.getTopObject();
                                 

@@ -24,15 +24,18 @@ public class Interaction {
     
     SelectEvent event;
 
-	Interaction(Object o, String event, List<Position> list, Position lookFor){
+	Interaction(Object o, String event, List<Position> list, boolean re){
 	if (o != null) {
         // have a look at what object was selected.  We're only
         // interested in the SurfaceEllipses we drew..
         System.out.println("interact: " + o.getClass().getName());
-         if(list.contains(lookFor)){
+         if(re){
         	 System.out.println("Happy days");
         	 PointPlacemarkAttributes  pointPlacemarkAttrs = new PointPlacemarkAttributes();
         	 pointPlacemarkAttrs.setScale(2.0);
+        	
+        	 
+        	 
              ((PointPlacemark) o).setAttributes(pointPlacemarkAttrs);
              
              Thread restoreObjThread = new Thread(new Runnable() {
@@ -45,13 +48,12 @@ public class Interaction {
 
                  public void run() {
                      try {
-                         Thread.sleep(3000);
+                         Thread.sleep(4000);
                      }
                      catch (InterruptedException ex) {
                          Logger.getLogger(Interaction.class.getName()).log(Level.SEVERE, null, ex);
                      }
                      
-
                      // prevent race condition.. if the user clicked or is dragging... ;-)
                      if (!event.equals(SelectEvent.DRAG) ) {
                          

@@ -25,7 +25,8 @@ public class FirstView {
 	
 	protected WorldWindow worldWindCanvas;
 	static RenderableLayer layer = null;
-	Position mouseCurrentPosition = null;
+	private Position mouseCurrentPosition = null;
+	private List<Position> mousePositionOnMap;
 	
 	
 	FirstView(){
@@ -60,55 +61,50 @@ public class FirstView {
 				    @Override
 				    public void mouseClicked(MouseEvent pE) {
                         //getting position from current mouse click
-				    final Position mouseCurrentPosition = worldWindCanvas.getCurrentPosition();
-				    
+				   
+				    	final Position mouseCurrentPosition = worldWindCanvas.getCurrentPosition();
 
 				        //Or whatever work:      
 				        if(mouseCurrentPosition != null && (mousePositionOnMap.contains(mouseCurrentPosition) != true )) {
 				        	//after null check to make sure coordinates are not null avoiding null point exceptions
-				        	
+				        	 
 				        	//constructor for creating placeMarks from mouse position
-				        	PointPlacemark pointPlacemarkOnMapList = new  PointPlacemark (mouseCurrentPosition);
 				        	mousePositionOnMap.add(mouseCurrentPosition);
 				        	
 				        	
-			    				
+				        	
+				        	
+				        	
 			    			
-			    			layer.addRenderable(pointPlacemarkOnMapList);
-			    			 if (mousePositionOnMap.size()>1){
-		 				        	Polyline polyline = new Polyline(mousePositionOnMap);
-		 				        	
-		 				        	
-		 				        	polyline.setColor(Color.RED);
-		 				        	polyline.setLineWidth(2);
-		 				        	layer.addRenderable(polyline);}
 			    			
 			    			//adding select listener to window 
 							worldWindCanvas.getInputHandler().addSelectListener(new SelectListener(){
 									   //running method if for selection 
 						    			public void selected(SelectEvent event){
 						    				//checking what is selected
-						    				if(event.getEventAction().equals(SelectEvent.DRAG) && event.hasObjects() && event.getTopObject()  instanceof PointPlacemark){
+						    				if(event.getEventAction().equals(SelectEvent.HOVER) && event.hasObjects()){
 						    					//logic what to do after selection is finished
 
 						    					layer.dispose();
 						    				
+						    					PointPlacemark hoveredPointPlacemark = (PointPlacemark) event.getTopObject();
 						    					
-						    					
-						    					
+						    					Position pickedPosition = hoveredPointPlacemark.getPosition();
 						    					
 						    					//end of polyline creating
-						    				Position placemarkOnMap =	pointPlacemarkOnMapList.getPosition();
-						    						Position dragEndPosition = worldWindCanvas.getCurrentPosition();
-							    					if(mousePositionOnMap.contains(mouseCurrentPosition)) {
-							    						int indexToReplace = mousePositionOnMap.indexOf(mouseCurrentPosition);
+						    				
+						    						Position moveEndPosition = worldWindCanvas.getCurrentPosition();
+							    					if(mousePositionOnMap.contains(pickedPosition)) {
+							    						int indexToReplace = mousePositionOnMap.indexOf(pickedPosition);
 							    						
-							    						mousePositionOnMap.set(indexToReplace, dragEndPosition);
+							    						System.out.println("Position found" + mousePositionOnMap.indexOf(pickedPosition));
+							    						mousePositionOnMap.set(indexToReplace, moveEndPosition);
 							    						
-							    						System.out.println("Position found" + mousePositionOnMap.indexOf(mouseCurrentPosition));
+							    						
 							    						
 							    					};
 						    					 
+							    					
 						    					
 						    					
 						    				}//ends logic for first type (if) statement
@@ -139,7 +135,9 @@ public class FirstView {
 				            System.out.println("Current Pos= " + mouseCurrentPosition);
 				            
 				            
-				           
+				            drawPolyLines(mousePositionOnMap);
+				        	drawMarkers(mousePositionOnMap);
+				        	worldWindCanvas.getModel().getLayers().add(layer);
 				             
 				        }//ends if loop if position is not null
 				        
@@ -150,11 +148,11 @@ public class FirstView {
 				        }//ends else loop it position is null 
 				       
 				    }//ends click event
-				    
+				       
 				    
 				});//ends mouse Listener 
 				
-				worldWindCanvas.getModel().getLayers().add(layer);
+				
 				
 				
 				
@@ -168,7 +166,25 @@ public class FirstView {
 			
 	}//ends first view Constructor
 	
-	
+ private void drawPolyLines(List<Position> list){
+	 if (list.size()>1){
+      	Polyline polyline = new Polyline(list);
+      	
+      	
+      	polyline.setColor(Color.RED);
+      	polyline.setLineWidth(2);
+      	layer.addRenderable(polyline);}
+	 
+ }	
+ 
+ private void drawMarkers(List<Position> list){
+	 
+	 for(Position pos : list){
+	 PointPlacemark pointPlacemarkOnMapList = new  PointPlacemark (pos);
+	 layer.addRenderable(pointPlacemarkOnMapList);
+	 
+	 }
+ }
    
 	
 }//ends first view class

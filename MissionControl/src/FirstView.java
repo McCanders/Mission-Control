@@ -93,7 +93,7 @@ public class FirstView  {
 								 final Object topObject = event.getTopObject();
 							     String	 giveEvent = event.getEventAction();
 							     boolean give = mousePositionOnMap.contains(pickedPosition);
-								 new Interaction(topObject,giveEvent,mousePositionOnMap,g);
+								 new Interaction(topObject,giveEvent,mousePositionOnMap,give);
 					               
                                 PointPlacemark hoveredPointPlacemark = (PointPlacemark) event.getTopObject();
                                 

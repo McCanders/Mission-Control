@@ -13,21 +13,27 @@ import gov.nasa.worldwind.awt.WorldWindowGLCanvas;
 import gov.nasa.worldwind.event.SelectEvent;
 import gov.nasa.worldwind.event.SelectListener;
 import gov.nasa.worldwind.geom.Position;
-import gov.nasa.worldwind.layers.Earth.BMNGOneImage;
-import gov.nasa.worldwind.render.AnnotationAttributes;
+import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.render.PointPlacemark;
+import gov.nasa.worldwind.render.PointPlacemarkAttributes;
 import gov.nasa.worldwind.render.Polyline;
 import gov.nasa.worldwind.util.BasicDragger;
-import gov.nasa.worldwindx.applications.sar.TrackPanel;
-import gov.nasa.worldwind.layers.*;
+import gov.nasa.worldwindx.examples.ApplicationTemplate;
 
-public class FirstView {
-
+public class FirstView  {
+   
 	protected WorldWindow worldWindCanvas;
 	static RenderableLayer layer = null;
 
 	private List<Position> mousePositionOnMap;
-	private Position pickedPosition, moveEndPosition;
+	private Position pickedPosition;
+	 /**
+     * Flag to indicate something was selected - this tracks both shapes(!) see
+     * notes above
+     */
+    public static boolean selected = false;
+	
+	
 
 	FirstView() {
 
@@ -52,7 +58,7 @@ public class FirstView {
 		// Create one set of layers.
 
 		layer = new RenderableLayer();
-
+        layer.setPickEnabled(true);
 		// adding mouse listener to window
 		worldWindCanvas.getInputHandler().addMouseListener(new MouseAdapter() {
 			@Override
@@ -75,19 +81,26 @@ public class FirstView {
 					worldWindCanvas.getInputHandler().addSelectListener(new SelectListener() {
 						// running method if for selection
 						public void selected(SelectEvent event) {
+							
 							// checking what is selected
 							if (event.getEventAction().equals(SelectEvent.HOVER) && event.hasObjects()
 									&& event.getTopObject() instanceof PointPlacemark) {
 								// logic what to do after selection is finished
-
-								PointPlacemark hoveredPointPlacemark = (PointPlacemark) event.getTopObject();
-
+								 final Object topObject = event.getTopObject();
+							     String	 giveEvent = event.getEventAction();
+								 new Interaction(topObject,giveEvent,mousePositionOnMap,pickedPosition);
+					               
+                                PointPlacemark hoveredPointPlacemark = (PointPlacemark) event.getTopObject();
+                                
 								pickedPosition = hoveredPointPlacemark.getPosition();
 								System.out.println(mousePositionOnMap.contains(pickedPosition));
 
 							} // ends logic for first type (if) statement
 
 							if (event.getEventAction().equals(SelectEvent.DRAG_END)) {
+								// it's possible to have a stack of objects at a given lat lon,
+				                // this ensures you get the one that was really clicked on 
+				               
 								Position dragEndPosition = worldWindCanvas.getCurrentPosition();
 								removeFromListAfterAction(mousePositionOnMap, pickedPosition, dragEndPosition);
 								Object dragObject = event.getTopObject();
@@ -97,7 +110,7 @@ public class FirstView {
 								System.out.println("Drag start   " + pickedPosition);
 								layer.dispose();
 								drawPolyLines(mousePositionOnMap);
-								 drawMarkers(mousePositionOnMap);
+								drawMarkers(mousePositionOnMap);
 								worldWindCanvas.getModel().getLayers().add(layer);
 							}
 
@@ -110,6 +123,7 @@ public class FirstView {
 
 								System.out.println("Removed succ");
 							}
+							
 
 							// adding one more selection criteria
 							else if (event.getEventAction().equals(SelectEvent.DRAG) && event.hasObjects()
@@ -186,5 +200,7 @@ public class FirstView {
 
 		return mousePositionOnMap;
 	}
+	
+	
 
 }// ends first view class
